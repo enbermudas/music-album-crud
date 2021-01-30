@@ -1,0 +1,18 @@
+{
+  "dev": {
+    "user": "",
+    "password": "",
+    "database": "",
+    "host": "",
+    "port": "",
+    "dialect": "mysql"
+  },
+  "test": {
+    "user": "",
+    "password": "",
+    "database": "",
+    "host": "",
+    "port": "",
+    "dialect": "mysql"
+  }
+}
