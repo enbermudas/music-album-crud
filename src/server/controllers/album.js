@@ -29,7 +29,7 @@ class AlbumController {
 
   async find(req, res, next) {
     try {
-      const data = await albumService.findAlbum(req.params);
+      const data = await albumService.findAlbum(req, res);
 
       return res.status(200).json({
         success: data,

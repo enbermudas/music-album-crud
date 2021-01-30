@@ -29,7 +29,7 @@ class SongController {
 
   async find(req, res, next) {
     try {
-      const data = await songService.findSong(req.params);
+      const data = await songService.findSong(req, res);
 
       return res.status(200).json({
         success: data,

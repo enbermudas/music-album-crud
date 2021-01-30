@@ -31,7 +31,7 @@ class ArtistController {
 
   async find(req, res, next) {
     try {
-      const data = await artistService.findArtist(req.params);
+      const data = await artistService.findArtist(req, res);
 
       return res.status(200).json({
         success: data,
