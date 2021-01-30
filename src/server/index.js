@@ -13,7 +13,7 @@ connect(MODE_TEST, async (err) => {
   } else {
     signale.info('Connected to MySQL.');
 
-    await models.sequelize.sync({ force: true });
+    await models.sequelize.sync({ alter: true });
 
     server.listen(port, () => {
       signale.info(`🚀 Server is running on http://localhost:${port}/api/v1`);
