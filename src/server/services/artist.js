@@ -15,9 +15,15 @@ const getArtists = async () => {
   return artists;
 };
 
-const findArtist = async ({ id }) => {
-  const artist = await Artist.findByPk(id);
-  if (!artist) throw 'Artist not found';
+const findArtist = async (req, res) => {
+  const artist = await Artist.findByPk(req.params.id);
+
+  if (!artist) {
+    return res.status(500).json({
+      message: 'Artist not found'
+    });
+  }
+
   return artist;
 };
 

@@ -25,9 +25,15 @@ const getAlbums = async () => {
   return albums;
 };
 
-const findAlbum = async ({ id }) => {
-  const album = await Album.findByPk(id);
-  if (!album) throw 'Album not found';
+const findAlbum = async (req, res) => {
+  const album = await Album.findByPk(req.params.id);
+
+  if (!album) {
+    return res.status(500).json({
+      message: 'Album not found'
+    });
+  }
+
   return album;
 };
 

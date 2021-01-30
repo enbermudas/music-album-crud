@@ -28,9 +28,15 @@ const getSongs = async () => {
   return songs;
 };
 
-const findSong = async ({ id }) => {
-  const song = await Song.findByPk(id);
-  if (!song) throw 'Song not found';
+const findSong = async (req, res) => {
+  const song = await Song.findByPk(req.params.id);
+
+  if (!song) {
+    return res.status(500).json({
+      message: 'Song not found'
+    });
+  }
+
   return song;
 };
 
