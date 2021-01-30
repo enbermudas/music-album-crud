@@ -14,9 +14,22 @@ class AlbumController {
     }
   }
 
+  async get(req, res, next) {
+    try {
+      const data = await albumService.getAlbums();
+
+      return res.status(200).json({
+        success: data,
+        message: data ? 'Albums found.' : 'Error while retrieving the albums.'
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
   async find(req, res, next) {
     try {
-      const data = await albumService.getAlbum(req.body);
+      const data = await albumService.findAlbum(req.params);
 
       return res.status(200).json({
         success: data,

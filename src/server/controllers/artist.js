@@ -16,9 +16,22 @@ class ArtistController {
     }
   }
 
+  async get(req, res, next) {
+    try {
+      const data = await artistService.getArtists();
+
+      return res.status(200).json({
+        success: data,
+        message: data ? 'Artists found.' : 'Error while retrieving the artists.'
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
   async find(req, res, next) {
     try {
-      const data = await artistService.getArtist(req.body);
+      const data = await artistService.findArtist(req.params);
 
       return res.status(200).json({
         success: data,

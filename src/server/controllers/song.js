@@ -14,9 +14,22 @@ class SongController {
     }
   }
 
+  async get(req, res, next) {
+    try {
+      const data = await songService.getSongs();
+
+      return res.status(200).json({
+        success: data,
+        message: data ? 'Songs found.' : 'Error while retrieving the songs.'
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
   async find(req, res, next) {
     try {
-      const data = await songService.getSong(req.body);
+      const data = await songService.findSong(req.params);
 
       return res.status(200).json({
         success: data,
