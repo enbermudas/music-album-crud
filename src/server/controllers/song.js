@@ -3,7 +3,7 @@ import songService from '../services/song';
 class SongController {
   async create(req, res, next) {
     try {
-      const data = await songService.createSong(req.body);
+      const data = await songService.createSong(req, res);
 
       return res.status(200).json({
         success: data,

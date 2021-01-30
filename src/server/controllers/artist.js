@@ -3,7 +3,7 @@ import artistService from '../services/artist';
 class ArtistController {
   async create(req, res, next) {
     try {
-      const data = await artistService.createArtist(req.body);
+      const data = await artistService.createArtist(req, res);
 
       return res.status(200).json({
         success: data,

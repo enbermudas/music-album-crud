@@ -3,7 +3,7 @@ import albumService from '../services/album';
 class AlbumController {
   async create(req, res, next) {
     try {
-      const data = await albumService.createAlbum(req.body);
+      const data = await albumService.createAlbum(req, res);
 
       return res.status(200).json({
         success: data,
