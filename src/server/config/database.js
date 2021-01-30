@@ -1,11 +1,12 @@
 import mysql from 'mysql2';
 import signale from 'signale';
 import { Sequelize } from 'sequelize';
-import { dev } from '../../../db.config.json';
+import config from '../../../db.config.json';
+
+const env = process.env.NODE_ENV || 'dev';
+const { user, password, database, host, port, dialect } = config[env];
 
 let sequelize = null;
-
-const { user, password, database, host, port, dialect } = dev;
 
 export const MODE_TEST = 'mode_test';
 
