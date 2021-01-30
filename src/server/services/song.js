@@ -4,7 +4,7 @@ import { getAlbum } from './album';
 
 const { Song } = models;
 
-export const createSong = async (params) => {
+const createSong = async (params) => {
   if (
     await Song.findOne({
       where: { name: params.name, artistId: params.artistId, albumId: params.albumId }
@@ -23,8 +23,19 @@ export const createSong = async (params) => {
   return newSong;
 };
 
-export const getSong = async (id) => {
+const getSongs = async () => {
+  const songs = await Song.findAll();
+  return songs;
+};
+
+const findSong = async ({ id }) => {
   const song = await Song.findByPk(id);
   if (!song) throw 'Song not found';
   return song;
+};
+
+export default {
+  createSong,
+  getSongs,
+  findSong
 };

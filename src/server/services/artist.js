@@ -2,7 +2,7 @@ import models from '../models';
 
 const { Artist } = models;
 
-export const createArtist = async (params) => {
+const createArtist = async (params) => {
   if (await Artist.findOne({ where: { name: params.name } })) return null;
 
   const newArtist = await Artist.create(params);
@@ -10,8 +10,19 @@ export const createArtist = async (params) => {
   return newArtist;
 };
 
-export const getArtist = async (id) => {
+const getArtists = async () => {
+  const artists = await Artist.findAll();
+  return artists;
+};
+
+const findArtist = async ({ id }) => {
   const artist = await Artist.findByPk(id);
   if (!artist) throw 'Artist not found';
   return artist;
+};
+
+export default {
+  createArtist,
+  getArtists,
+  findArtist
 };
