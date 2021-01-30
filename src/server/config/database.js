@@ -41,6 +41,7 @@ export const connect = async (mode, done) => {
     });
 
     await sequelize.authenticate();
+
     signale.info('Connected to the DB.');
     done();
   } catch (error) {
