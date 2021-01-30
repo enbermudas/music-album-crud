@@ -2,10 +2,20 @@ import models from '../models';
 
 const { Artist } = models;
 
-const createArtist = async (params) => {
-  if (await Artist.findOne({ where: { name: params.name } })) return null;
+const createArtist = async (req, res) => {
+  const {
+    body: { name }
+  } = req;
 
-  const newArtist = await Artist.create(params);
+  const artist = await Artist.findOne({ where: { name: name } });
+
+  if (artist) {
+    return res.status(500).json({
+      message: 'This artist already exists.'
+    });
+  }
+
+  const newArtist = await Artist.create(req.body);
 
   return newArtist;
 };

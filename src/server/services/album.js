@@ -1,21 +1,23 @@
 import models from '../models';
-import { getArtist } from './artist';
 
 const { Album } = models;
 
-const createAlbum = async (params) => {
-  if (
-    await Song.findOne({
-      where: { name: params.name, artistId: params.artistId }
-    })
-  )
-    return null;
+const createAlbum = async (req, res) => {
+  const {
+    body: { name, artistId }
+  } = req;
 
-  const artist = await getArtist(params.artistId);
+  const album = await Album.findOne({
+    where: { name, artistId }
+  });
 
-  const newAlbum = await Song.create(params);
+  if (album) {
+    return res.status(500).json({
+      message: 'This album already exists.'
+    });
+  }
 
-  artist.setSong(newAlbum);
+  const newAlbum = await Album.create(req.body);
 
   return newAlbum;
 };
