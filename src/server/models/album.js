@@ -8,7 +8,7 @@ export default (sequelize, DataTypes) => {
   Album.init(
     {
       name: DataTypes.STRING,
-      artist: DataTypes.INTEGER,
+      artistId: DataTypes.INTEGER,
       cover: DataTypes.STRING,
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE
@@ -22,8 +22,8 @@ export default (sequelize, DataTypes) => {
   );
 
   Album.associate = (models) => {
-    Album.belongsTo(models.Artist, { foreignKey: 'artist' });
-    Album.hasMany(models.Song, { foreignKey: 'album' });
+    Album.belongsTo(models.Artist, { foreignKey: 'artistId' });
+    Album.hasMany(models.Song, { foreignKey: 'albumId' });
   };
 
   return Album;

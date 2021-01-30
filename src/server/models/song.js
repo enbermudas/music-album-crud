@@ -9,8 +9,8 @@ export default (sequelize, DataTypes) => {
     {
       name: DataTypes.STRING,
       duration: DataTypes.STRING,
-      artist: DataTypes.INTEGER,
-      album: DataTypes.INTEGER,
+      artistId: DataTypes.INTEGER,
+      albumId: DataTypes.INTEGER,
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE
     },
@@ -23,8 +23,8 @@ export default (sequelize, DataTypes) => {
   );
 
   Song.associate = (models) => {
-    Song.belongsTo(models.Artist, { foreignKey: 'artist' });
-    Song.belongsTo(models.Album, { foreignKey: 'album' });
+    Song.belongsTo(models.Artist, { foreignKey: 'artistId' });
+    Song.belongsTo(models.Album, { foreignKey: 'albumId' });
   };
 
   return Song;
