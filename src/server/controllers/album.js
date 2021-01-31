@@ -39,6 +39,19 @@ class AlbumController {
       next(err);
     }
   }
+
+  async edit(req, res, next) {
+    try {
+      const data = await albumService.editAlbum(req, res);
+
+      return res.status(200).json({
+        data,
+        message: data ? 'Album edited.' : 'Error while editing the album.'
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 export default new AlbumController();

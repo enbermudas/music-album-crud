@@ -39,6 +39,19 @@ class SongController {
       next(err);
     }
   }
+
+  async edit(req, res, next) {
+    try {
+      const data = await songService.editSong(req, res);
+
+      return res.status(200).json({
+        data,
+        message: data ? 'Song edited.' : 'Error while editing the song.'
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 export default new SongController();

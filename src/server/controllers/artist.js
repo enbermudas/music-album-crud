@@ -41,6 +41,19 @@ class ArtistController {
       next(err);
     }
   }
+
+  async edit(req, res, next) {
+    try {
+      const data = await artistService.editArtist(req, res);
+
+      return res.status(200).json({
+        data,
+        message: data ? 'Artist edited.' : 'Error while editing the artist.'
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 export default new ArtistController();
