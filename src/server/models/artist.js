@@ -21,8 +21,19 @@ export default (sequelize, DataTypes) => {
   );
 
   Artist.associate = (models) => {
-    Artist.hasMany(models.Album, { foreignKey: 'artistId', as: 'albums' });
-    Artist.hasMany(models.Song, { foreignKey: 'artistId', as: 'songs' });
+    Artist.hasMany(models.Album, {
+      foreignKey: 'artistId',
+      as: 'albums',
+      onDelete: 'cascade',
+      hooks: true
+    });
+
+    Artist.hasMany(models.Song, {
+      foreignKey: 'artistId',
+      as: 'songs',
+      onDelete: 'cascade',
+      hooks: true
+    });
   };
 
   return Artist;
