@@ -6,7 +6,7 @@ class AlbumController {
       const data = await albumService.createAlbum(req, res);
 
       return res.status(200).json({
-        success: data,
+        data,
         message: data ? 'Album successfully created.' : 'Error while creating the album.'
       });
     } catch (err) {
@@ -19,7 +19,7 @@ class AlbumController {
       const data = await albumService.getAlbums();
 
       return res.status(200).json({
-        success: data,
+        data,
         message: data ? 'Albums found.' : 'Error while retrieving the albums.'
       });
     } catch (err) {
@@ -32,7 +32,7 @@ class AlbumController {
       const data = await albumService.findAlbum(req, res);
 
       return res.status(200).json({
-        success: data,
+        data,
         message: data ? 'Album found.' : 'Error while retrieving the album.'
       });
     } catch (err) {

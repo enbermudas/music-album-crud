@@ -6,7 +6,7 @@ class SongController {
       const data = await songService.createSong(req, res);
 
       return res.status(200).json({
-        success: data,
+        data,
         message: data ? 'Song successfully created.' : 'Error while creating the song.'
       });
     } catch (err) {
@@ -19,7 +19,7 @@ class SongController {
       const data = await songService.getSongs();
 
       return res.status(200).json({
-        success: data,
+        data,
         message: data ? 'Songs found.' : 'Error while retrieving the songs.'
       });
     } catch (err) {
@@ -32,7 +32,7 @@ class SongController {
       const data = await songService.findSong(req, res);
 
       return res.status(200).json({
-        success: data,
+        data,
         message: data ? 'Song found.' : 'Error while retrieving the song.'
       });
     } catch (err) {
