@@ -75,9 +75,24 @@ const editAlbum = async (req, res) => {
   return album;
 };
 
+const deleteAlbum = async (req, res) => {
+  const album = await Album.findByPk(req.params.id);
+
+  if (!album) {
+    return res.status(500).json({
+      message: 'Album not found'
+    });
+  }
+
+  await album.destroy();
+
+  return null;
+};
+
 export default {
   createAlbum,
   getAlbums,
   findAlbum,
-  editAlbum
+  editAlbum,
+  deleteAlbum
 };

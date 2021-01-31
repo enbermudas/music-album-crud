@@ -75,9 +75,24 @@ const editSong = async (req, res) => {
   return song;
 };
 
+const deleteSong = async (req, res) => {
+  const song = await Song.findByPk(req.params.id);
+
+  if (!song) {
+    return res.status(500).json({
+      message: 'Song not found'
+    });
+  }
+
+  await song.destroy();
+
+  return null;
+};
+
 export default {
   createSong,
   getSongs,
   findSong,
-  editSong
+  editSong,
+  deleteSong
 };

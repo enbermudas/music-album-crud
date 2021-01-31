@@ -73,9 +73,24 @@ const editArtist = async (req, res) => {
   return artist;
 };
 
+const deleteArtist = async (req, res) => {
+  const artist = await Artist.findByPk(req.params.id);
+
+  if (!artist) {
+    return res.status(500).json({
+      message: 'Artist not found'
+    });
+  }
+
+  await artist.destroy();
+
+  return null;
+};
+
 export default {
   createArtist,
   getArtists,
   findArtist,
-  editArtist
+  editArtist,
+  deleteArtist
 };
