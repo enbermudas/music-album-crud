@@ -24,15 +24,13 @@ export default (sequelize, DataTypes) => {
     Artist.hasMany(models.Album, {
       foreignKey: 'artistId',
       as: 'albums',
-      onDelete: 'cascade',
-      hooks: true
+      onDelete: 'CASCADE'
     });
 
     Artist.hasMany(models.Song, {
       foreignKey: 'artistId',
       as: 'songs',
-      onDelete: 'cascade',
-      hooks: true
+      onDelete: 'CASCADE'
     });
   };
 
