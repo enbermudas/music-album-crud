@@ -1,0 +1,11 @@
+.Artists {
+  margin: 20px;
+}
+
+.artist-card {
+  max-width: 100%;
+}
+
+.artist-cover {
+  min-height: 300px;
+}
