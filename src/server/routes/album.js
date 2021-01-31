@@ -6,5 +6,6 @@ const router = Router();
 router.get('/', albumController.get);
 router.post('/', albumController.create);
 router.get('/:id', albumController.find);
+router.put('/:id', albumController.edit);
 
 export default router;

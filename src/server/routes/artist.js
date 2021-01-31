@@ -6,5 +6,6 @@ const router = Router();
 router.get('/', artistController.get);
 router.post('/', artistController.create);
 router.get('/:id', artistController.find);
+router.put('/:id', artistController.edit);
 
 export default router;
