@@ -1,6 +1,6 @@
 import models from '../models';
 
-const { Album } = models;
+const { Artist, Album, Song } = models;
 
 const createAlbum = async (req, res) => {
   const {
@@ -28,7 +28,18 @@ const getAlbums = async () => {
 };
 
 const findAlbum = async (req, res) => {
-  const album = await Album.findByPk(req.params.id);
+  const album = await Album.findByPk(req.params.id, {
+    include: [
+      {
+        model: Artist,
+        as: 'artist'
+      },
+      {
+        model: Song,
+        as: 'songs'
+      }
+    ]
+  });
 
   if (!album) {
     return res.status(500).json({
