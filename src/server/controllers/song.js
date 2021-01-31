@@ -52,6 +52,19 @@ class SongController {
       next(err);
     }
   }
+
+  async delete(req, res, next) {
+    try {
+      const data = await songService.deleteSong(req, res);
+
+      return res.status(200).json({
+        data,
+        message: !data ? 'Song deleted.' : 'Error while deleting the song.'
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 export default new SongController();

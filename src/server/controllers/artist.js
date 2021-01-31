@@ -54,6 +54,19 @@ class ArtistController {
       next(err);
     }
   }
+
+  async delete(req, res, next) {
+    try {
+      const data = await artistService.deleteArtist(req, res);
+
+      return res.status(200).json({
+        data,
+        message: !data ? 'Artist deleted.' : 'Error while deleting the artist.'
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 export default new ArtistController();

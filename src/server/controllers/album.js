@@ -52,6 +52,19 @@ class AlbumController {
       next(err);
     }
   }
+
+  async delete(req, res, next) {
+    try {
+      const data = await albumService.deleteAlbum(req, res);
+
+      return res.status(200).json({
+        data,
+        message: !data ? 'Album deleted.' : 'Error while deleting the album.'
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 export default new AlbumController();
