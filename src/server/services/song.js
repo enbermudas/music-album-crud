@@ -50,8 +50,34 @@ const findSong = async (req, res) => {
   return song;
 };
 
+const editSong = async (req, res) => {
+  const song = await Song.findByPk(req.params.id, {
+    include: [
+      {
+        model: Artist,
+        as: 'artist'
+      },
+      {
+        model: Album,
+        as: 'album'
+      }
+    ]
+  });
+
+  if (!song) {
+    return res.status(500).json({
+      message: 'Song not found'
+    });
+  }
+
+  song.update(req.body);
+
+  return song;
+};
+
 export default {
   createSong,
   getSongs,
-  findSong
+  findSong,
+  editSong
 };

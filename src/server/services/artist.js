@@ -48,8 +48,34 @@ const findArtist = async (req, res) => {
   return artist;
 };
 
+const editArtist = async (req, res) => {
+  const artist = await Artist.findByPk(req.params.id, {
+    include: [
+      {
+        model: Album,
+        as: 'albums'
+      },
+      {
+        model: Song,
+        as: 'songs'
+      }
+    ]
+  });
+
+  if (!artist) {
+    return res.status(500).json({
+      message: 'Artist not found'
+    });
+  }
+
+  artist.update(req.body);
+
+  return artist;
+};
+
 export default {
   createArtist,
   getArtists,
-  findArtist
+  findArtist,
+  editArtist
 };

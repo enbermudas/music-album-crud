@@ -50,8 +50,34 @@ const findAlbum = async (req, res) => {
   return album;
 };
 
+const editAlbum = async (req, res) => {
+  const album = await Album.findByPk(req.params.id, {
+    include: [
+      {
+        model: Artist,
+        as: 'artist'
+      },
+      {
+        model: Song,
+        as: 'songs'
+      }
+    ]
+  });
+
+  if (!album) {
+    return res.status(500).json({
+      message: 'Album not found'
+    });
+  }
+
+  album.update(req.body);
+
+  return album;
+};
+
 export default {
   createAlbum,
   getAlbums,
-  findAlbum
+  findAlbum,
+  editAlbum
 };
