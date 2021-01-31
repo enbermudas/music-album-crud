@@ -16,7 +16,7 @@ connect(MODE_TEST, async (err) => {
     await models.sequelize.sync({ alter: true });
 
     server.listen(port, () => {
-      signale.info(`🚀 Server is running on http://localhost:${port}/api/v1`);
+      signale.info(`Server is running on http://localhost:${port}/api/v1`);
     });
   }
 });

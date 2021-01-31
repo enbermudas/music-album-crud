@@ -4,7 +4,7 @@ import { Sequelize } from 'sequelize';
 import config from '../../../db.config.json';
 
 const env = process.env.NODE_ENV || 'dev';
-const { user, password, database, host, port, dialect } = config[env];
+const { user, password, database, host, port, dialect, logging } = config[env];
 
 let sequelize = null;
 
@@ -24,7 +24,8 @@ export const db = {
       database,
       host,
       port,
-      dialect
+      dialect,
+      logging
     });
   }
 };
@@ -37,7 +38,8 @@ export const connect = async (mode, done) => {
       database,
       host,
       port,
-      dialect
+      dialect,
+      logging
     });
 
     await sequelize.authenticate();
