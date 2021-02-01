@@ -22,7 +22,7 @@ const createArtist = async (req, res) => {
 
 const getArtists = async () => {
   const artists = await Artist.findAll({
-    order: [['createdAt', 'DESC']],
+    order: [['createdAt', 'DESC']]
   });
 
   return artists;
