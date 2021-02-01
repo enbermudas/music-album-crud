@@ -24,6 +24,7 @@ const createSong = async (req, res) => {
 
 const getSongs = async () => {
   const songs = await Song.findAll({
+    order: [['createdAt', 'DESC']],
     include: [
       {
         model: Artist,

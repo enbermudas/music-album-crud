@@ -24,6 +24,7 @@ const createAlbum = async (req, res) => {
 
 const getAlbums = async () => {
   const albums = await Album.findAll({
+    order: [['createdAt', 'DESC']],
     include: [
       {
         model: Artist,
