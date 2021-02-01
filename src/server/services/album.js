@@ -23,7 +23,16 @@ const createAlbum = async (req, res) => {
 };
 
 const getAlbums = async () => {
-  const albums = await Album.findAll();
+  const albums = await Album.findAll({
+    include: [
+      {
+        model: Artist,
+        as: 'artist',
+        attributes: ['name']
+      }
+    ]
+  });
+
   return albums;
 };
 

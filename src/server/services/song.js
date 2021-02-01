@@ -23,7 +23,21 @@ const createSong = async (req, res) => {
 };
 
 const getSongs = async () => {
-  const songs = await Song.findAll();
+  const songs = await Song.findAll({
+    include: [
+      {
+        model: Artist,
+        as: 'artist',
+        attributes: ['name', 'photo']
+      },
+      {
+        model: Album,
+        as: 'album',
+        attributes: ['name', 'cover']
+      }
+    ]
+  });
+
   return songs;
 };
 
