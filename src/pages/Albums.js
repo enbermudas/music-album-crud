@@ -1,18 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Card, Row, Col, Tooltip, Popconfirm, message } from 'antd';
+import { Link, useLocation } from 'react-router-dom';
 import { DeleteOutlined, EditOutlined, EllipsisOutlined } from '@ant-design/icons';
 import { API_URL } from '../constants';
 import './Albums.css';
 
-const Albumbs = () => {
+const useQuery = () => {
+  return new URLSearchParams(useLocation().search);
+};
+
+const Albums = () => {
+  const query = useQuery();
+
+  const [artistId] = useState(Number(query.get('artistId')));
   const [albums, setAlbums] = useState([]);
 
   // Initial fetch
   useEffect(async () => {
     try {
       const res = await axios.get(`${API_URL}/album`);
-      setAlbums(res.data.data);
+
+      let filteredAlbums = res.data.data;
+
+      if (artistId) {
+        filteredAlbums = filteredAlbums.filter((album) => album.artistId === artistId);
+      }
+
+      setAlbums(filteredAlbums);
     } catch (err) {
       console.error(err);
     }
@@ -45,7 +60,9 @@ const Albumbs = () => {
                 }
                 actions={[
                   <Tooltip key={`album-${id}-find`} title="Go to song list">
-                    <EllipsisOutlined />
+                    <Link to={`/songs?albumId=${id}`}>
+                      <EllipsisOutlined />
+                    </Link>
                   </Tooltip>,
 
                   <Tooltip key={`album-${id}-edit`} title="Edit this album">
@@ -74,4 +91,4 @@ const Albumbs = () => {
   );
 };
 
-export default Albumbs;
+export default Albums;

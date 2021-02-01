@@ -1,19 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Row, Col, Card, List, Avatar, Tooltip, message, Popconfirm } from 'antd';
+import { useLocation } from 'react-router-dom';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import time from '../helpers/time';
 import { API_URL } from '../constants';
 import './Songs.css';
 
+const useQuery = () => {
+  return new URLSearchParams(useLocation().search);
+};
+
 const Songs = () => {
+  const query = useQuery();
+
+  const [albumId] = useState(Number(query.get('albumId')));
+  const [artistId] = useState(Number(query.get('artistId')));
   const [songs, setSongs] = useState([]);
 
   // Initial fetch
   useEffect(async () => {
     try {
       const res = await axios.get(`${API_URL}/song`);
-      setSongs(res.data.data);
+
+      let filteredSongs = res.data.data;
+
+      if (artistId) {
+        filteredSongs = filteredSongs.filter((song) => song.artistId === artistId);
+      }
+
+      if (albumId) {
+        filteredSongs = filteredSongs.filter((song) => song.albumId === albumId);
+      }
+
+      setSongs(filteredSongs);
     } catch (err) {
       console.error(err);
       message.error('Ups! Something went wrong while fetching the songs.');

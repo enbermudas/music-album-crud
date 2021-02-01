@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Card, Row, Col, Tooltip, Popconfirm, message } from 'antd';
-import { DeleteOutlined, EditOutlined, EllipsisOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
+import {
+  DeleteOutlined,
+  EditOutlined,
+  FileImageOutlined,
+  CaretRightOutlined
+} from '@ant-design/icons';
 import { API_URL } from '../constants';
 import './Artists.css';
 
@@ -44,8 +50,16 @@ const Artists = () => {
                   <img className="artist-cover" alt={`artist-${id}-cover`} src={photo} />
                 }
                 actions={[
-                  <Tooltip key={`artist-${id}-find`} title="Go to profile page">
-                    <EllipsisOutlined />
+                  <Tooltip key={`artist-${id}-albums`} title="Go to albums list">
+                    <Link to={`/albums?artistId=${id}`}>
+                      <FileImageOutlined />
+                    </Link>
+                  </Tooltip>,
+
+                  <Tooltip key={`artist-${id}-songs`} title="Go to songs list">
+                    <Link to={`/songs?albumId=${id}`}>
+                      <CaretRightOutlined />
+                    </Link>
                   </Tooltip>,
 
                   <Tooltip key={`artist-${id}-edit`} title="Edit this artist">
