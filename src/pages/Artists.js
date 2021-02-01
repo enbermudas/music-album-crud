@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Card, Row, Col, Tooltip } from 'antd';
+import { Card, Row, Col, Tooltip, Popconfirm, message } from 'antd';
 import { DeleteOutlined, EditOutlined, EllipsisOutlined } from '@ant-design/icons';
 import { API_URL } from '../constants';
 import './Artists.css';
@@ -17,6 +17,20 @@ const Artists = () => {
       console.error(err);
     }
   }, []);
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`${API_URL}/artist/${id}`);
+
+      const res = await axios.get(`${API_URL}/artist`);
+      setArtists(res.data.data);
+
+      message.success('The artist was successfuly deleted.');
+    } catch (err) {
+      console.error(err);
+      message.error('Ups! Something went wrong while deleting the artist.');
+    }
+  };
 
   return (
     <div className="Artists">
@@ -38,9 +52,17 @@ const Artists = () => {
                     <EditOutlined />
                   </Tooltip>,
 
-                  <Tooltip key={`artist-${id}-delete`} title="Delete this artist">
-                    <DeleteOutlined />
-                  </Tooltip>
+                  <Popconfirm
+                    key={`artist-${id}-delete`}
+                    title="Are you sure about deleting this artist?"
+                    onConfirm={() => handleDelete(id)}
+                    okText="Yes"
+                    cancelText="No"
+                  >
+                    <Tooltip title="Delete this artist" placement="bottom">
+                      <DeleteOutlined />
+                    </Tooltip>
+                  </Popconfirm>
                 ]}
               >
                 <Card.Meta title={name} />
