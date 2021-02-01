@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Row, Col, Card, List, Avatar, Tooltip, message, Popconfirm } from 'antd';
+import { Row, Col, Card, List, Avatar, Tooltip, Popconfirm, Empty, message } from 'antd';
 import { useLocation } from 'react-router-dom';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import time from '../helpers/time';
@@ -55,53 +55,59 @@ const Songs = () => {
   };
 
   return (
-    <div className="Songs">
-      <Row>
-        <Col lg={{ span: 12, offset: 6 }} xs={{ span: 24 }}>
-          <Card bordered>
-            <List
-              itemLayout="vertical"
-              size="large"
-              dataSource={songs}
-              renderItem={({ id, name, duration, artist, album }) => (
-                <List.Item
-                  key={id}
-                  extra={time(duration)}
-                  actions={[
-                    <Tooltip key={`song-${id}-edit`} title="Edit this song">
-                      <EditOutlined />
-                    </Tooltip>,
+    <>
+      {!!songs.length ? (
+        <div className="Songs">
+          <Row>
+            <Col lg={{ span: 12, offset: 6 }} xs={{ span: 24 }}>
+              <Card bordered>
+                <List
+                  itemLayout="vertical"
+                  size="large"
+                  dataSource={songs}
+                  renderItem={({ id, name, duration, artist, album }) => (
+                    <List.Item
+                      key={id}
+                      extra={time(duration)}
+                      actions={[
+                        <Tooltip key={`song-${id}-edit`} title="Edit this song">
+                          <EditOutlined />
+                        </Tooltip>,
 
-                    <Popconfirm
-                      key={`song-${id}-edit`}
-                      title="Are you sure about deleting this song?"
-                      onConfirm={() => handleDelete(id)}
-                      okText="Yes"
-                      cancelText="No"
+                        <Popconfirm
+                          key={`song-${id}-edit`}
+                          title="Are you sure about deleting this song?"
+                          onConfirm={() => handleDelete(id)}
+                          okText="Yes"
+                          cancelText="No"
+                        >
+                          <Tooltip title="Delete this song" placement="bottom">
+                            <DeleteOutlined />
+                          </Tooltip>
+                        </Popconfirm>
+                      ]}
                     >
-                      <Tooltip title="Delete this song" placement="bottom">
-                        <DeleteOutlined />
-                      </Tooltip>
-                    </Popconfirm>
-                  ]}
-                >
-                  <List.Item.Meta
-                    avatar={<Avatar src={artist.photo} />}
-                    title={name}
-                    description={
-                      <span>
-                        Made by <strong>{artist.name}</strong> for the album titled{' '}
-                        <i>{album.name}</i>.
-                      </span>
-                    }
-                  />
-                </List.Item>
-              )}
-            />
-          </Card>
-        </Col>
-      </Row>
-    </div>
+                      <List.Item.Meta
+                        avatar={<Avatar src={artist.photo} />}
+                        title={name}
+                        description={
+                          <span>
+                            Made by <strong>{artist.name}</strong> for the album titled{' '}
+                            <i>{album.name}</i>.
+                          </span>
+                        }
+                      />
+                    </List.Item>
+                  )}
+                />
+              </Card>
+            </Col>
+          </Row>
+        </div>
+      ) : (
+        <Empty style={{ marginTop: '2%' }} />
+      )}
+    </>
   );
 };
 

@@ -282,7 +282,7 @@ const Artists = () => {
             </Modal>
           </>
         ) : (
-          <Empty />
+          <Empty style={{ marginTop: '5%' }} />
         ))}
     </>
   );

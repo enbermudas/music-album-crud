@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Card, Row, Col, Tooltip, Popconfirm, message } from 'antd';
+import { Card, Row, Col, Tooltip, Popconfirm, Empty, message } from 'antd';
 import { Link, useLocation } from 'react-router-dom';
 import { DeleteOutlined, EditOutlined, EllipsisOutlined } from '@ant-design/icons';
 import { API_URL } from '../constants';
@@ -48,46 +48,56 @@ const Albums = () => {
   };
 
   return (
-    <div className="Albums">
-      <Row gutter={[16, 16]}>
-        {!!albums.length &&
-          albums.map(({ id, name, cover, artist }) => (
-            <Col key={id} lg={{ span: 6 }} md={{ span: 12 }} xs={{ span: 24 }}>
-              <Card
-                className="album-card"
-                cover={
-                  <img className="album-cover" alt={`album-${id}-cover`} src={cover} />
-                }
-                actions={[
-                  <Tooltip key={`album-${id}-find`} title="Go to song list">
-                    <Link to={`/songs?albumId=${id}`}>
-                      <EllipsisOutlined />
-                    </Link>
-                  </Tooltip>,
+    <>
+      {!!albums.length ? (
+        <div className="Albums">
+          <Row gutter={[16, 16]}>
+            {!!albums.length &&
+              albums.map(({ id, name, cover, artist }) => (
+                <Col key={id} lg={{ span: 6 }} md={{ span: 12 }} xs={{ span: 24 }}>
+                  <Card
+                    className="album-card"
+                    cover={
+                      <img
+                        className="album-cover"
+                        alt={`album-${id}-cover`}
+                        src={cover}
+                      />
+                    }
+                    actions={[
+                      <Tooltip key={`album-${id}-find`} title="Go to song list">
+                        <Link to={`/songs?albumId=${id}`}>
+                          <EllipsisOutlined />
+                        </Link>
+                      </Tooltip>,
 
-                  <Tooltip key={`album-${id}-edit`} title="Edit this album">
-                    <EditOutlined />
-                  </Tooltip>,
+                      <Tooltip key={`album-${id}-edit`} title="Edit this album">
+                        <EditOutlined />
+                      </Tooltip>,
 
-                  <Popconfirm
-                    key={`album-${id}-delete`}
-                    title="Are you sure about deleting this album?"
-                    onConfirm={() => handleDelete(id)}
-                    okText="Yes"
-                    cancelText="No"
+                      <Popconfirm
+                        key={`album-${id}-delete`}
+                        title="Are you sure about deleting this album?"
+                        onConfirm={() => handleDelete(id)}
+                        okText="Yes"
+                        cancelText="No"
+                      >
+                        <Tooltip title="Delete this album" placement="bottom">
+                          <DeleteOutlined />
+                        </Tooltip>
+                      </Popconfirm>
+                    ]}
                   >
-                    <Tooltip title="Delete this album" placement="bottom">
-                      <DeleteOutlined />
-                    </Tooltip>
-                  </Popconfirm>
-                ]}
-              >
-                <Card.Meta title={name} description={`By: "${artist.name}"`} />
-              </Card>
-            </Col>
-          ))}
-      </Row>
-    </div>
+                    <Card.Meta title={name} description={`By: "${artist.name}"`} />
+                  </Card>
+                </Col>
+              ))}
+          </Row>
+        </div>
+      ) : (
+        <Empty style={{ marginTop: '5%' }} />
+      )}
+    </>
   );
 };
 
