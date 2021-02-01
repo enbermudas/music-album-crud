@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Row, Col, Card, List, Avatar, Tooltip } from 'antd';
+import { Row, Col, Card, List, Avatar, Tooltip, message, Popconfirm } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import time from '../helpers/time';
+import { API_URL } from '../constants';
 import './Songs.css';
 
 const Songs = () => {
@@ -11,12 +12,27 @@ const Songs = () => {
   // Initial fetch
   useEffect(async () => {
     try {
-      const res = await axios.get('http://localhost:8080/api/v1/song');
+      const res = await axios.get(`${API_URL}/song`);
       setSongs(res.data.data);
     } catch (err) {
       console.error(err);
+      message.error('Ups! Something went wrong while fetching the songs.');
     }
   }, []);
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`${API_URL}/song/${id}`);
+
+      const res = await axios.get(`${API_URL}/song`);
+      setSongs(res.data.data);
+
+      message.success('The song was successfuly deleted.');
+    } catch (err) {
+      console.error(err);
+      message.error('Ups! Something went wrong while deleting the song.');
+    }
+  };
 
   return (
     <div className="Songs">
@@ -36,9 +52,17 @@ const Songs = () => {
                       <EditOutlined />
                     </Tooltip>,
 
-                    <Tooltip key={`song-${id}-edit`} title="Delete this song">
-                      <DeleteOutlined />
-                    </Tooltip>
+                    <Popconfirm
+                      key={`song-${id}-edit`}
+                      title="Are you sure about deleting this song?"
+                      onConfirm={() => handleDelete(id)}
+                      okText="Yes"
+                      cancelText="No"
+                    >
+                      <Tooltip title="Delete this song" placement="bottom">
+                        <DeleteOutlined />
+                      </Tooltip>
+                    </Popconfirm>
                   ]}
                 >
                   <List.Item.Meta
