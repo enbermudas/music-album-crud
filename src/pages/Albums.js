@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Card, Row, Col, Tooltip } from 'antd';
 import { DeleteOutlined, EditOutlined, EllipsisOutlined } from '@ant-design/icons';
+import { API_URL } from '../constants';
 import './Albums.css';
 
 const Albumbs = () => {
@@ -10,7 +11,7 @@ const Albumbs = () => {
   // Initial fetch
   useEffect(async () => {
     try {
-      const res = await axios.get('http://localhost:8080/api/v1/album');
+      const res = await axios.get(`${API_URL}/album`);
       setAlbums(res.data.data);
     } catch (err) {
       console.error(err);
