@@ -1,0 +1,11 @@
+.Albums {
+  margin: 20px;
+}
+
+.album-card {
+  max-width: 100%;
+}
+
+.album-cover {
+  min-height: 300px;
+}
