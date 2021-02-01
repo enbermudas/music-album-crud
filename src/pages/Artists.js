@@ -162,7 +162,7 @@ const Artists = () => {
                           </Tooltip>,
 
                           <Tooltip key={`artist-${id}-songs`} title="Go to songs list">
-                            <Link to={`/songs?albumId=${id}`}>
+                            <Link to={`/songs?artistId=${id}`}>
                               <CaretRightOutlined />
                             </Link>
                           </Tooltip>,
