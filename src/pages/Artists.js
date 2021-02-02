@@ -129,161 +129,157 @@ const Artists = () => {
     <>
       {fetching && <Spin size="large" style={{ margin: '50px 50%' }} />}
 
+      {!fetching && (
+        <Button
+          style={{ margin: '20px' }}
+          type="primary"
+          onClick={() => setShowCreate(true)}
+        >
+          Create a new artist!
+        </Button>
+      )}
+
       {!fetching &&
         (!!artists.length ? (
-          <>
-            <div className="Artists">
-              <Button
-                style={{ marginBottom: '20px' }}
-                type="primary"
-                onClick={() => setShowCreate(true)}
-              >
-                Create a new artist!
-              </Button>
+          <div className="Artists">
+            <Row gutter={[16, 16]}>
+              {!!artists.length &&
+                artists.map(({ id, name, photo }) => (
+                  <Col key={id} lg={{ span: 6 }} md={{ span: 12 }} xs={{ span: 24 }}>
+                    <Card
+                      className="artist-card"
+                      cover={
+                        <img
+                          className="artist-cover"
+                          alt={`artist-${id}-cover`}
+                          src={photo}
+                        />
+                      }
+                      actions={[
+                        <Tooltip key={`artist-${id}-albums`} title="Go to albums list">
+                          <Link to={`/albums?artistId=${id}`}>
+                            <FileImageOutlined />
+                          </Link>
+                        </Tooltip>,
 
-              <Row gutter={[16, 16]}>
-                {!!artists.length &&
-                  artists.map(({ id, name, photo }) => (
-                    <Col key={id} lg={{ span: 6 }} md={{ span: 12 }} xs={{ span: 24 }}>
-                      <Card
-                        className="artist-card"
-                        cover={
-                          <img
-                            className="artist-cover"
-                            alt={`artist-${id}-cover`}
-                            src={photo}
-                          />
-                        }
-                        actions={[
-                          <Tooltip key={`artist-${id}-albums`} title="Go to albums list">
-                            <Link to={`/albums?artistId=${id}`}>
-                              <FileImageOutlined />
-                            </Link>
-                          </Tooltip>,
+                        <Tooltip key={`artist-${id}-songs`} title="Go to songs list">
+                          <Link to={`/songs?artistId=${id}`}>
+                            <CaretRightOutlined />
+                          </Link>
+                        </Tooltip>,
 
-                          <Tooltip key={`artist-${id}-songs`} title="Go to songs list">
-                            <Link to={`/songs?artistId=${id}`}>
-                              <CaretRightOutlined />
-                            </Link>
-                          </Tooltip>,
+                        <Tooltip key={`artist-${id}-edit`} title="Edit this artist">
+                          <EditOutlined onClick={() => setupEdition(id)} />
+                        </Tooltip>,
 
-                          <Tooltip key={`artist-${id}-edit`} title="Edit this artist">
-                            <EditOutlined onClick={() => setupEdition(id)} />
-                          </Tooltip>,
-
-                          <Popconfirm
-                            key={`artist-${id}-delete`}
-                            title="Are you sure about deleting this artist?"
-                            onConfirm={() => handleDelete(id)}
-                            okText="Yes"
-                            cancelText="No"
-                          >
-                            <Tooltip title="Delete this artist" placement="bottom">
-                              <DeleteOutlined />
-                            </Tooltip>
-                          </Popconfirm>
-                        ]}
-                      >
-                        <Card.Meta title={name} />
-                      </Card>
-                    </Col>
-                  ))}
-              </Row>
-            </div>
-
-            {/* CREATE FORM */}
-            <Modal
-              title="Create a new artist"
-              visible={showCreate}
-              confirmLoading={confirmLoading}
-              okText="Create"
-              cancelText="Cancel"
-              onOk={() => {
-                createForm
-                  .validateFields()
-                  .then((values) => {
-                    createForm.resetFields();
-                    handleCreate(values);
-                  })
-                  .catch((info) => console.error('Validate Failed:', info));
-              }}
-              onCancel={() => clearForms()}
-            >
-              <Form {...layout} form={createForm} name="create-artist-form">
-                <Form.Item
-                  label="Name"
-                  name="name"
-                  rules={[
-                    { required: true, message: 'You must indicate the artist name.' }
-                  ]}
-                >
-                  <Input placeholder="Example: The Placeholders" />
-                </Form.Item>
-
-                <Form.Item
-                  label="Photo"
-                  name="photo"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'You must provide an image for the artist.'
-                    },
-                    { validator: image }
-                  ]}
-                >
-                  <Input placeholder="Example: https://pacehold.it/1000x1000" />
-                </Form.Item>
-              </Form>
-            </Modal>
-
-            {/* EDIT FORM */}
-            <Modal
-              title="Editing an artist"
-              visible={showEdit}
-              confirmLoading={confirmLoading}
-              okText="Update"
-              cancelText="Cancel"
-              onOk={() => {
-                editForm
-                  .validateFields()
-                  .then((values) => {
-                    editForm.resetFields();
-                    handleEdit(values);
-                  })
-                  .catch((info) => console.error('Validate Failed:', info));
-              }}
-              onCancel={() => clearForms()}
-            >
-              <Form {...layout} form={editForm} name="edit-artist-form">
-                <Form.Item
-                  label="Name"
-                  name="name"
-                  rules={[
-                    { required: true, message: 'You must indicate the artist name.' }
-                  ]}
-                >
-                  <Input placeholder="Example: The Placeholders" />
-                </Form.Item>
-
-                <Form.Item
-                  label="Photo"
-                  name="photo"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'You must provide an image for the artist.'
-                    },
-                    { validator: image }
-                  ]}
-                >
-                  <Input placeholder="Example: https://pacehold.it/1000x1000" />
-                </Form.Item>
-              </Form>
-            </Modal>
-          </>
+                        <Popconfirm
+                          key={`artist-${id}-delete`}
+                          title="Are you sure about deleting this artist?"
+                          onConfirm={() => handleDelete(id)}
+                          okText="Yes"
+                          cancelText="No"
+                        >
+                          <Tooltip title="Delete this artist" placement="bottom">
+                            <DeleteOutlined />
+                          </Tooltip>
+                        </Popconfirm>
+                      ]}
+                    >
+                      <Card.Meta title={name} />
+                    </Card>
+                  </Col>
+                ))}
+            </Row>
+          </div>
         ) : (
           <Empty style={{ marginTop: '5%' }} />
         ))}
+
+      {/* CREATE FORM */}
+      <Modal
+        title="Create a new artist"
+        visible={showCreate}
+        confirmLoading={confirmLoading}
+        okText="Create"
+        cancelText="Cancel"
+        onOk={() => {
+          createForm
+            .validateFields()
+            .then((values) => {
+              createForm.resetFields();
+              handleCreate(values);
+            })
+            .catch((info) => console.error('Validate Failed:', info));
+        }}
+        onCancel={() => clearForms()}
+      >
+        <Form {...layout} form={createForm} name="create-artist-form">
+          <Form.Item
+            label="Name"
+            name="name"
+            rules={[{ required: true, message: 'You must indicate the artist name.' }]}
+          >
+            <Input placeholder="Example: The Placeholders" />
+          </Form.Item>
+
+          <Form.Item
+            label="Photo"
+            name="photo"
+            rules={[
+              {
+                required: true,
+                message: 'You must provide an image for the artist.'
+              },
+              { validator: image }
+            ]}
+          >
+            <Input placeholder="Example: https://pacehold.it/1000x1000" />
+          </Form.Item>
+        </Form>
+      </Modal>
+
+      {/* EDIT FORM */}
+      <Modal
+        title="Editing an artist"
+        visible={showEdit}
+        confirmLoading={confirmLoading}
+        okText="Update"
+        cancelText="Cancel"
+        onOk={() => {
+          editForm
+            .validateFields()
+            .then((values) => {
+              editForm.resetFields();
+              handleEdit(values);
+            })
+            .catch((info) => console.error('Validate Failed:', info));
+        }}
+        onCancel={() => clearForms()}
+      >
+        <Form {...layout} form={editForm} name="edit-artist-form">
+          <Form.Item
+            label="Name"
+            name="name"
+            rules={[{ required: true, message: 'You must indicate the artist name.' }]}
+          >
+            <Input placeholder="Example: The Placeholders" />
+          </Form.Item>
+
+          <Form.Item
+            label="Photo"
+            name="photo"
+            rules={[
+              {
+                required: true,
+                message: 'You must provide an image for the artist.'
+              },
+              { validator: image }
+            ]}
+          >
+            <Input placeholder="Example: https://pacehold.it/1000x1000" />
+          </Form.Item>
+        </Form>
+      </Modal>
     </>
   );
 };
