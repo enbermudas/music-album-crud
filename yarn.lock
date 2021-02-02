@@ -1536,6 +1536,20 @@
   dependencies:
     redux "^4.0.5"
 
+"@researchgate/react-intersection-list@^3.0.11":
+  version "3.0.11"
+  resolved "https://registry.yarnpkg.com/@researchgate/react-intersection-list/-/react-intersection-list-3.0.11.tgz#bbae217036217b39ada2edc2ce78d22a8194c146"
+  integrity sha512-EBi56JI0QOctiJFbNH/p1pnLk/Hr2cpBQL1lKmXe55Z49ohYTrgRETzEzYH4hTCWP6VKMFpstf51cCnEf0qoHA==
+  dependencies:
+    "@researchgate/react-intersection-observer" "^1.1.2"
+    prop-types "^15.7.2"
+    warning "^4.0.3"
+
+"@researchgate/react-intersection-observer@^1.1.2":
+  version "1.3.5"
+  resolved "https://registry.yarnpkg.com/@researchgate/react-intersection-observer/-/react-intersection-observer-1.3.5.tgz#0321d2dd609aaacdb9bace8004d99c72824fb142"
+  integrity sha512-aYlsex5Dd6BAHMJvJrUoFp8gzgMSL27xFvrxkVYW0bV1RMAapVsO+QeYLtTaSF/QCflktODodvv+wJm49oMnnQ==
+
 "@rollup/plugin-node-resolve@^7.1.1":
   version "7.1.3"
   resolved "https://registry.yarnpkg.com/@rollup/plugin-node-resolve/-/plugin-node-resolve-7.1.3.tgz#80de384edfbd7bfc9101164910f86078151a3eca"

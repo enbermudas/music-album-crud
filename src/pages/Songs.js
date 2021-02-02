@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Row, Col, Card, List, Avatar, Tooltip, Popconfirm, Empty, message } from 'antd';
 import { useLocation } from 'react-router-dom';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { default as InfiniteList } from '@researchgate/react-intersection-list';
 import time from '../helpers/time';
 import { API_URL } from '../constants';
 import './Songs.css';
@@ -54,51 +55,66 @@ const Songs = () => {
     }
   };
 
+  const itemsRenderer = (items, ref) => (
+    <span ref={ref}>
+      <List itemLayout="vertical" size="large" dataSource={songs}>
+        {items}
+      </List>
+    </span>
+  );
+
+  const renderItem = (index, key) => {
+    const { id, name, duration, artist, album } = songs[index];
+
+    return (
+      <React.Fragment key={key}>
+        <List.Item
+          key={id}
+          extra={time(duration)}
+          actions={[
+            <Tooltip key={`song-${id}-edit`} title="Edit this song">
+              <EditOutlined />
+            </Tooltip>,
+
+            <Popconfirm
+              key={`song-${id}-edit`}
+              title="Are you sure about deleting this song?"
+              onConfirm={() => handleDelete(id)}
+              okText="Yes"
+              cancelText="No"
+            >
+              <Tooltip title="Delete this song" placement="bottom">
+                <DeleteOutlined />
+              </Tooltip>
+            </Popconfirm>
+          ]}
+        >
+          <List.Item.Meta
+            avatar={<Avatar src={artist.photo} />}
+            title={name}
+            description={
+              <span>
+                Made by <strong>{artist.name}</strong> for the album titled{' '}
+                <i>{album.name}</i>.
+              </span>
+            }
+          />
+        </List.Item>
+      </React.Fragment>
+    );
+  };
+
   return (
     <>
       {!!songs.length ? (
         <div className="Songs">
           <Row>
             <Col lg={{ span: 12, offset: 6 }} xs={{ span: 24 }}>
-              <Card bordered>
-                <List
-                  itemLayout="vertical"
-                  size="large"
-                  dataSource={songs}
-                  renderItem={({ id, name, duration, artist, album }) => (
-                    <List.Item
-                      key={id}
-                      extra={time(duration)}
-                      actions={[
-                        <Tooltip key={`song-${id}-edit`} title="Edit this song">
-                          <EditOutlined />
-                        </Tooltip>,
-
-                        <Popconfirm
-                          key={`song-${id}-edit`}
-                          title="Are you sure about deleting this song?"
-                          onConfirm={() => handleDelete(id)}
-                          okText="Yes"
-                          cancelText="No"
-                        >
-                          <Tooltip title="Delete this song" placement="bottom">
-                            <DeleteOutlined />
-                          </Tooltip>
-                        </Popconfirm>
-                      ]}
-                    >
-                      <List.Item.Meta
-                        avatar={<Avatar src={artist.photo} />}
-                        title={name}
-                        description={
-                          <span>
-                            Made by <strong>{artist.name}</strong> for the album titled{' '}
-                            <i>{album.name}</i>.
-                          </span>
-                        }
-                      />
-                    </List.Item>
-                  )}
+              <Card bordered style={{ marginBottom: '25px' }}>
+                <InfiniteList
+                  itemCount={songs.length}
+                  itemsRenderer={itemsRenderer}
+                  renderItem={renderItem}
                 />
               </Card>
             </Col>
