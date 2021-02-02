@@ -50,6 +50,7 @@ const Songs = () => {
   const [artists, setArtists] = useState([]);
   const [albums, setAlbums] = useState([]);
   const [editId, setEditId] = useState(null);
+  const [selectedArtist, setSelectedArtist] = useState(null);
   const [showCreate, setShowCreate] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
@@ -150,6 +151,7 @@ const Songs = () => {
   const setupEdition = (id) => {
     const song = songs.find((a) => a.id === id);
     setEditId(song.id);
+    setSelectedArtist(song.artistId);
     editForm.setFieldsValue(song);
     setShowEdit(true);
   };
@@ -158,6 +160,7 @@ const Songs = () => {
     setShowCreate(false);
     setShowEdit(false);
     setEditId(null);
+    setSelectedArtist(null);
     createForm.resetFields();
     editForm.resetFields();
   };
@@ -311,7 +314,7 @@ const Songs = () => {
             hasFeedback
             rules={[{ required: true, message: "Please select the song's artist" }]}
           >
-            <Select placeholder="Check the list">
+            <Select placeholder="Check the list" onChange={(v) => setSelectedArtist(v)}>
               {artists.map((artist) => {
                 return (
                   <Select.Option key={artist.id} value={artist.id}>
@@ -328,14 +331,19 @@ const Songs = () => {
             hasFeedback
             rules={[{ required: true, message: "Please select the song's album" }]}
           >
-            <Select placeholder="Check the list">
-              {albums.map((album) => {
-                return (
-                  <Select.Option key={album.id} value={album.id}>
-                    {album.name}
-                  </Select.Option>
-                );
-              })}
+            <Select placeholder="Check the list" disabled={!selectedArtist}>
+              {albums
+                .filter((album) => {
+                  if (!selectedArtist) return true;
+                  return album.artistId === selectedArtist;
+                })
+                .map((album) => {
+                  return (
+                    <Select.Option key={album.id} value={album.id}>
+                      {album.name}
+                    </Select.Option>
+                  );
+                })}
             </Select>
           </Form.Item>
 
@@ -387,7 +395,7 @@ const Songs = () => {
             hasFeedback
             rules={[{ required: true, message: "Please select the song's artist" }]}
           >
-            <Select placeholder="Check the list">
+            <Select placeholder="Check the list" onChange={(v) => setSelectedArtist(v)}>
               {artists.map((artist) => {
                 return (
                   <Select.Option key={artist.id} value={artist.id}>
@@ -404,14 +412,19 @@ const Songs = () => {
             hasFeedback
             rules={[{ required: true, message: "Please select the song's album" }]}
           >
-            <Select placeholder="Check the list">
-              {albums.map((album) => {
-                return (
-                  <Select.Option key={album.id} value={album.id}>
-                    {album.name}
-                  </Select.Option>
-                );
-              })}
+            <Select placeholder="Check the list" disabled={!selectedArtist}>
+              {albums
+                .filter((album) => {
+                  if (!selectedArtist) return true;
+                  return album.artistId === selectedArtist;
+                })
+                .map((album) => {
+                  return (
+                    <Select.Option key={album.id} value={album.id}>
+                      {album.name}
+                    </Select.Option>
+                  );
+                })}
             </Select>
           </Form.Item>
 
