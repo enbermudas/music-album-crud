@@ -126,6 +126,7 @@ const Albums = () => {
       message.error('Ups! Something went wrong while deleting the album.');
     }
   };
+
   const setupEdition = (id) => {
     const album = albums.find((a) => a.id === id);
     setEditId(album.id);
