@@ -27,12 +27,28 @@ Install all the dependencies by running:
 npm install
 
 # or
-
 yarn
 ```
 
 ## Development
-Start both client and server by using running `npm run start:both` or `yarn start:both`. You can also start a single part of the project with eiter `start:client` or `start:server`.
+Start both client and server by using running:
+
+```bash
+npm run start:both
+
+# or
+yarn start:both
+```
+
+You can also start a single part of the project with either of these commands:
+
+```bash
+# Client (React)
+start:client
+
+# Server (Node / Express)
+start:server
+```
 
 ## Licensing
 
