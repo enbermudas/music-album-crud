@@ -7,14 +7,5 @@
     "port": "",
     "dialect": "mysql",
     "logging": false
-  },
-  "test": {
-    "user": "",
-    "password": "",
-    "database": "",
-    "host": "",
-    "port": "",
-    "dialect": "mysql",
-    "logging": false
   }
 }
